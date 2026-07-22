@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Insights — HerCycle</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,500&family=Manrope:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/dashboard.css">
+<link rel="stylesheet" href="css/analytics.css">
+<link rel="stylesheet" href="css/app-bg.css">
+</head>
+<body class="app-dark">
+
+<nav>
+  <div class="logo"><span class="logo-mark"></span>HerCycle</div>
+  <div class="nav-links">
+    <a href="dashboard.html">Dashboard</a>
+    <a href="analytics.html" class="active">Insights</a>
+    <a href="account.html">Account</a>
+  </div>
+</nav>
+
+<div class="app-shell">
+  <div class="section-head">
+    <span class="section-tag">Insights</span>
+    <h2>The "why" behind your cycle.</h2>
+  </div>
+
+  <div class="analytics-grid">
+    <div class="glass">
+      <h4 class="card-title">Cycle statistics</h4>
+      <div class="stat-row"><span>Average cycle length</span><span id="anStatAvg">—</span></div>
+      <div class="stat-row"><span>Standard deviation</span><span id="anStatStd">—</span></div>
+      <div class="stat-row"><span>Cycles logged</span><span id="anStatCount">—</span></div>
+    </div>
+
+    <div class="glass">
+      <h4 class="card-title">Symptom correlation</h4>
+      <div id="correlationBars"></div>
+    </div>
+
+    <div class="glass wide-card">
+      <h4 class="card-title">Recent entries</h4>
+      <table class="log-table" id="logTable">
+        <thead>
+          <tr><th>Date</th><th>Flow</th><th>Symptoms</th><th>Sleep</th></tr>
+        </thead>
+        <tbody id="logTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="export-row">
+    <button class="btn-ghost" id="exportPdfBtn">📄 Export PDF report for doctor</button>
+  </div>
+</div>
+
+<div class="disclaimer-bar">This tool is for informational purposes only and does not constitute medical advice.</div>
+
+<script src="js/data.js"></script>
+<script src="js/analytics.js"></script>
+</body>
+</html>

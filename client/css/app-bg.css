@@ -1,0 +1,70 @@
+/* ==========================================================
+   APP DARK BACKGROUND — "Blood & Bloom" rich mode
+   Applies to onboarding, dashboard, analytics, account
+   ========================================================== */
+
+body.app-dark {
+  background: linear-gradient(170deg, #2b1220 0%, #3d1626 45%, #5a1a34 100%);
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+body.app-dark::before,
+body.app-dark::after {
+  content: '';
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(90px);
+  z-index: 0;
+  pointer-events: none;
+}
+body.app-dark::before {
+  width: 480px; height: 480px;
+  background: var(--rose-deep);
+  opacity: 0.35;
+  top: -120px; right: -100px;
+}
+body.app-dark::after {
+  width: 420px; height: 420px;
+  background: var(--plum);
+  opacity: 0.4;
+  bottom: -140px; left: -100px;
+}
+
+/* ---- Text that sits DIRECTLY on the dark gradient (outside any .glass card) ---- */
+body.app-dark nav { background: rgba(30, 10, 20, 0.55); border-bottom: 1px solid rgba(255,255,255,0.1); }
+body.app-dark .logo { color: #fff; }
+body.app-dark .nav-links a { color: rgba(255,255,255,0.65); }
+body.app-dark .nav-links a.active,
+body.app-dark .nav-links a:hover { color: var(--coral-soft); }
+
+body.app-dark .section-tag { color: var(--coral-soft); }
+body.app-dark .section-head h2,
+body.app-dark .onboard-step h2 { color: #fff; }
+body.app-dark .section-head p { color: rgba(255,255,255,0.6); }
+body.app-dark .onboard-step > .muted-p { color: rgba(255,255,255,0.6); }
+
+body.app-dark .app-shell,
+body.app-dark .onboard-wrap { position: relative; z-index: 1; }
+
+body.app-dark .disclaimer-bar { color: rgba(255,255,255,0.45); }
+body.app-dark .progress-track { background: rgba(255,255,255,0.15); }
+body.app-dark .btn-ghost { border-color: rgba(255,255,255,0.25); color: #fff; }
+body.app-dark .btn-ghost:hover { border-color: var(--coral-soft); background: rgba(255,255,255,0.08); }
+
+/* ---- SAFETY NET: anything inside a .glass card always stays dark-on-light,
+   since the glass card itself is near-white regardless of page background ---- */
+body.app-dark .glass,
+body.app-dark .glass p,
+body.app-dark .glass span,
+body.app-dark .glass label,
+body.app-dark .glass li,
+body.app-dark .glass td,
+body.app-dark .glass th,
+body.app-dark .glass h4 {
+  color: var(--mocha);
+}
+body.app-dark .glass .muted-p { color: var(--mocha-soft); }
+body.app-dark .glass .stat-row span:last-child { color: var(--rose-deep); }
+body.app-dark .glass .section-tag { color: var(--plum); }
