@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard — HerCycle</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,500&family=Manrope:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+
+<nav>
+  <div class="logo"><span class="logo-mark"></span>HerCycle</div>
+  <div class="nav-links">
+    <a href="dashboard.html" class="active">Dashboard</a>
+    <a href="analytics.html">Insights</a>
+    <a href="account.html">Account</a>
+  </div>
+</nav>
+
+<div class="app-shell">
+  <div class="section-head">
+    <span class="section-tag">Dashboard</span>
+    <h2>Hey there. Here's where things stand.</h2>
+  </div>
+
+  <div class="dash-grid">
+    <div class="glass">
+      <div class="cal-head">
+        <h4 id="calMonthLabel">—</h4>
+        <div class="cal-nav">
+          <button id="calPrevBtn">‹</button>
+          <button id="calNextBtn">›</button>
+        </div>
+      </div>
+      <div class="cal-grid" id="calGrid"></div>
+      <div class="cal-legend">
+        <div class="leg-item"><span class="leg-dot" style="background:var(--heavy)"></span>Heavy</div>
+        <div class="leg-item"><span class="leg-dot" style="background:var(--medium)"></span>Medium</div>
+        <div class="leg-item"><span class="leg-dot" style="background:var(--light)"></span>Light</div>
+        <div class="leg-item"><span class="leg-dot predicted-dot"></span>Predicted</div>
+        <div class="leg-item"><span class="leg-dot" style="box-shadow:inset 0 0 0 2px var(--fertile)"></span>Fertile</div>
+      </div>
+    </div>
+
+    <div class="side-stack">
+      <div class="glass">
+        <div class="stat-row"><span>Avg. cycle length</span><span id="statCycleLen">—</span></div>
+        <div class="stat-row"><span>Avg. period length</span><span id="statPeriodLen">—</span></div>
+        <div class="stat-row"><span>Next period predicted</span><span id="statNextPeriod">—</span></div>
+        <div class="stat-row"><span>Flow forecast</span><span id="statFlowForecast">—</span></div>
+      </div>
+      <div class="glass">
+        <button class="checkin-btn" id="openLogBtn">＋ Quick Check-in</button>
+        <p class="muted-p small-p" id="lastLoggedNote">No entries yet — log today to get started.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- QUICK LOG MODAL -->
+<div class="modal-overlay" id="logModalOverlay" hidden>
+  <div class="modal glass">
+    <div class="modal-head">
+      <h3>Quick Check-in</h3>
+      <button class="modal-close" id="closeLogBtn">✕</button>
+    </div>
+
+    <label class="modal-label">Date</label>
+    <input type="date" id="logDate">
+
+    <label class="modal-label">Menstrual flow</label>
+    <div class="flow-select" id="flowSelect">
+      <button data-flow="none" class="flow-btn active" type="button">None</button>
+      <button data-flow="spotting" class="flow-btn" type="button">Spotting</button>
+      <button data-flow="light" class="flow-btn" type="button">Light</button>
+      <button data-flow="medium" class="flow-btn" type="button">Medium</button>
+      <button data-flow="heavy" class="flow-btn" type="button">Heavy</button>
+    </div>
+
+    <label class="modal-label">Symptoms</label>
+    <div class="symptom-chips" id="symptomChips">
+      <div class="chip" data-symptom="cramps">Cramps</div>
+      <div class="chip" data-symptom="bloating">Bloating</div>
+      <div class="chip" data-symptom="fatigue">Fatigue</div>
+      <div class="chip" data-symptom="mood">Mood swings</div>
+      <div class="chip" data-symptom="headache">Headache</div>
+      <div class="chip" data-symptom="acne">Acne</div>
+    </div>
+
+    <label class="modal-label">Sleep last night (hours)</label>
+    <input type="number" id="logSleep" placeholder="e.g. 7" min="0" max="14">
+
+    <button class="btn-primary modal-save" id="saveLogBtn">Save entry</button>
+  </div>
+</div>
+
+<div class="disclaimer-bar">This tool is for informational purposes only and does not constitute medical advice.</div>
+
+<script src="js/data.js"></script>
+<script src="js/calendar.js"></script>
+<script src="js/dashboard.js"></script>
+</body>
+</html>

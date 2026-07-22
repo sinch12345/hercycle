@@ -1,0 +1,118 @@
+/* ==========================================================
+   BASE / RESET
+   ========================================================== */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--ivory);
+  color: var(--mocha);
+  font-family: var(--font-body);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  color: var(--mocha);
+  letter-spacing: -0.01em;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+input, select, textarea {
+  font-family: inherit;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+::selection {
+  background: var(--coral-soft);
+  color: #fff;
+}
+
+/* ---- Reusable component classes (used across all pages) ---- */
+
+.btn-primary {
+  padding: 15px 30px;
+  border-radius: var(--radius-pill);
+  font-size: 15px;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--rose-deep), var(--plum));
+  color: #fff;
+  box-shadow: var(--shadow-glow);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.btn-primary:hover {
+  transform: translateY(-3px);
+}
+
+.btn-ghost {
+  padding: 15px 26px;
+  border-radius: var(--radius-pill);
+  font-size: 15px;
+  font-weight: 600;
+  background: transparent;
+  color: var(--mocha);
+  border: 1.5px solid var(--line);
+  transition: border-color 0.25s ease, background 0.25s ease;
+}
+.btn-ghost:hover {
+  border-color: var(--rose-deep);
+  background: rgba(233, 64, 87, 0.05);
+}
+
+.btn-danger {
+  padding: 13px 24px;
+  border-radius: var(--radius-pill);
+  font-size: 14px;
+  font-weight: 700;
+  background: var(--danger);
+  color: #fff;
+}
+
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur)) saturate(160%);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(160%);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+  padding: var(--space-3);
+}
+
+.section-tag {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--plum);
+  margin-bottom: var(--space-1);
+  display: block;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}

@@ -1,0 +1,65 @@
+/* ==========================================================
+   HERCYCLE DESIGN TOKENS
+   "Blood & Bloom" palette — vintage botanical meets medical trust
+   ========================================================== */
+
+:root {
+  /* ---- Color: Primary Gradient (hero, headers) ---- */
+  --rose-deep: #E94057;
+  --coral-soft: #F2716F;
+
+  /* ---- Color: Accent Gradient (buttons, progress) ---- */
+  --plum: #8A2387;
+
+  /* ---- Color: Neutrals ---- */
+  --ivory: #FDFBF7;      /* backgrounds */
+  --mocha: #4A3B42;      /* primary text */
+  --mocha-soft: #7A6870; /* secondary text */
+
+  /* ---- Color: Flow intensity (calendar) ---- */
+  --heavy: #C22A45;
+  --medium: #E94057;
+  --light: #F2A0A6;
+  --spot: #F6CBCE;
+  --fertile: #3FA796;
+
+  /* ---- Color: Utility ---- */
+  --line: rgba(74, 59, 66, 0.12);
+  --danger: #C22A45;
+
+  /* ---- Glassmorphism ---- */
+  --glass-bg: rgba(255, 255, 255, 0.55);
+  --glass-border: rgba(255, 255, 255, 0.6);
+  --glass-blur: 18px;
+
+  /* ---- Shadows ---- */
+  --shadow-soft: 0 8px 30px rgba(74, 59, 66, 0.08);
+  --shadow-glow: 0 10px 26px rgba(233, 64, 87, 0.35);
+
+  /* ---- Typography ---- */
+  --font-display: 'Fraunces', serif;
+  --font-body: 'Manrope', sans-serif;
+  --font-mono: 'DM Mono', monospace;
+
+  /* ---- Radius ---- */
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-pill: 100px;
+
+  /* ---- Spacing scale ---- */
+  --space-1: 8px;
+  --space-2: 16px;
+  --space-3: 24px;
+  --space-4: 36px;
+  --space-5: 56px;
+  --space-6: 90px;
+}
+
+/* ---- Reusable gradients ---- */
+.gradient-primary {
+  background: linear-gradient(135deg, var(--rose-deep), var(--coral-soft));
+}
+.gradient-accent {
+  background: linear-gradient(135deg, var(--plum), var(--rose-deep));
+}
