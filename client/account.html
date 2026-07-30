@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Account — HerCycle</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,500&family=Manrope:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
+<link rel="alternate icon" href="assets/icons/favicon.ico">
+<link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<meta name="theme-color" content="#E94057">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/dashboard.css">
+<link rel="stylesheet" href="css/account.css">
+<link rel="stylesheet" href="css/app-bg.css">
+</head>
+<body class="app-dark">
+
+<nav>
+  <div class="logo"><span class="logo-mark"></span>HerCycle</div>
+  <div class="nav-links">
+    <a href="dashboard.html">Dashboard</a>
+    <a href="analytics.html">Insights</a>
+    <a href="account.html" class="active">Account</a>
+  </div>
+</nav>
+
+<div class="app-shell">
+  <div class="section-head">
+    <span class="section-tag">Account</span>
+    <h2>Your data, your control.</h2>
+  </div>
+
+  <div class="account-grid">
+    <div class="glass">
+      <h4 class="card-title">Data export</h4>
+      <p class="muted-p">Download every log, profile field, and insight — raw, portable, yours.</p>
+      <div class="export-btns">
+        <button class="btn-ghost" id="exportJsonBtn">Export as JSON</button>
+        <button class="btn-ghost" id="exportCsvBtn">Export as CSV</button>
+      </div>
+    </div>
+
+    <div class="glass">
+      <h4 class="card-title">Notification preferences</h4>
+      <label class="toggle-row"><input type="checkbox" id="notifPeriod" checked> Remind me 2 days before my period</label>
+      <label class="toggle-row"><input type="checkbox" id="notifPill" checked> Remind me to take my pill</label>
+      <label class="toggle-row"><input type="checkbox" id="notifWeekly"> Weekly insight summary</label>
+    </div>
+
+    <div class="glass danger-card">
+      <h4 class="card-title">Delete all data</h4>
+      <p class="muted-p">Permanently wipes every log, profile field, and analytic from this browser. This cannot be undone.</p>
+      <button class="btn-danger" id="wipeDataBtn">Wipe all my data</button>
+    </div>
+  </div>
+</div>
+
+<!-- CONFIRM DELETE MODAL -->
+<div class="modal-overlay" id="confirmModalOverlay" hidden>
+  <div class="modal glass confirm-modal">
+    <h3>Wipe all your data?</h3>
+    <p>This permanently deletes every log, your profile, and all insights from this browser. This action cannot be undone.</p>
+    <div class="confirm-actions">
+      <button class="btn-ghost" id="cancelWipeBtn">Cancel</button>
+      <button class="btn-danger" id="confirmWipeBtn">Yes, delete everything</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<div class="disclaimer-bar">This tool is for informational purposes only and does not constitute medical advice.</div>
+
+<script src="js/data.js"></script>
+<script src="js/account.js"></script>
+</body>
+</html>

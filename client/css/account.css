@@ -1,0 +1,58 @@
+/* ==========================================================
+   ACCOUNT PAGE
+   ========================================================== */
+
+.account-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+}
+@media (max-width: 900px) {
+  .account-grid { grid-template-columns: 1fr; }
+}
+
+.export-btns { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 18px; }
+
+.toggle-row {
+  display: flex; align-items: center; gap: 12px;
+  font-size: 14px; color: var(--mocha);
+  padding: 12px 0; border-bottom: 1px solid var(--line);
+  cursor: pointer;
+}
+.toggle-row:last-child { border-bottom: none; }
+.toggle-row input {
+  width: 18px; height: 18px; accent-color: var(--rose-deep); cursor: pointer;
+}
+
+.danger-card {
+  grid-column: 1 / -1;
+  background: rgba(255, 235, 235, 0.75);
+  border: 1px solid rgba(194, 42, 69, 0.25);
+}
+.danger-card .card-title { color: var(--heavy); }
+.danger-card .muted-p { margin-bottom: 18px; }
+
+.btn-danger {
+  padding: 13px 24px; border-radius: var(--radius-pill);
+  font-size: 14px; font-weight: 700;
+  background: var(--danger); color: #fff;
+  transition: transform 0.2s ease;
+}
+.btn-danger:hover { transform: translateY(-2px); }
+
+/* ---- Confirm-delete modal ---- */
+.confirm-modal { max-width: 400px; text-align: center; }
+.confirm-modal h3 { font-size: 20px; margin-bottom: 12px; }
+.confirm-modal p { font-size: 14px; color: var(--mocha-soft); margin-bottom: 24px; }
+.confirm-actions { display: flex; gap: 12px; justify-content: center; }
+
+.toast {
+  position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(20px);
+  background: var(--mocha); color: #fff;
+  padding: 14px 26px; border-radius: var(--radius-pill);
+  font-size: 14px; font-weight: 600;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  z-index: 300;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }

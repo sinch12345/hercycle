@@ -1,0 +1,14 @@
+{
+  "name": "HerCycle — Menstrual & Reproductive Health Tracker",
+  "short_name": "HerCycle",
+  "description": "A private, adaptive period and cycle tracker.",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#2b1220",
+  "theme_color": "#E94057",
+  "icons": [
+    { "src": "assets/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "assets/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "assets/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
