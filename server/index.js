@@ -7,6 +7,8 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 require('dotenv').config();
 
+const authRoutes = require('./routes/auth');
+
 const app = express();
 
 // ---- Middleware ----
@@ -30,6 +32,9 @@ app.get('/', (req, res) => {
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', time: new Date().toISOString() });
 });
+
+// ---- Auth routes ----
+app.use('/api/auth', authRoutes);
 
 // ---- Start server ----
 const PORT = process.env.PORT || 5000;
