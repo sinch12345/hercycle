@@ -1,27 +1,34 @@
 // ==========================================================
-// DASHBOARD PAGE LOGIC
+// DASHBOARD PAGE LOGIC — now uses real API calls
 // ==========================================================
 
-let logs = loadLogs();
-let predictions = getPredictions(logs);
+let logs = [];
+let predictions = {};
 
-function refreshDashboard() {
-  logs = loadLogs();
-  predictions = getPredictions(logs);
-  renderCalendar(logs, predictions);
-  renderStats();
+async function refreshDashboard() {
+  try {
+    logs = await fetchLogs();
+    predictions = await fetchPredictions();
+    renderCalendar(logs, predictions);
+    renderStats();
+  } catch (err) {
+    console.error(err);
+    alert('Could not load your data. Try refreshing the page.');
+  }
 }
 
 function renderStats() {
   document.getElementById('statCycleLen').textContent = predictions.avgCycleLen ? `${predictions.avgCycleLen}d` : '—';
   document.getElementById('statPeriodLen').textContent = predictions.avgPeriodLen ? `${predictions.avgPeriodLen}d` : '—';
   document.getElementById('statNextPeriod').textContent = formatDate(predictions.nextPeriod);
-  document.getElementById('statFlowForecast').textContent = predictions.flowForecast;
+  document.getElementById('statFlowForecast').textContent = predictions.flowForecast || '—';
 
   const note = document.getElementById('lastLoggedNote');
   if (logs.length > 0) {
     const last = logs[logs.length - 1];
     note.textContent = `Last logged: ${formatDate(last.date)}`;
+  } else {
+    note.textContent = 'No entries yet — log today to get started.';
   }
 }
 
@@ -60,23 +67,28 @@ document.querySelectorAll('#symptomChips .chip').forEach(chip => {
 });
 
 // ---- Save entry ----
-document.getElementById('saveLogBtn').addEventListener('click', () => {
+document.getElementById('saveLogBtn').addEventListener('click', async () => {
   const date = document.getElementById('logDate').value;
   if (!date) { alert('Please pick a date.'); return; }
 
   const symptoms = Array.from(document.querySelectorAll('#symptomChips .chip.active')).map(c => c.dataset.symptom);
   const sleep = document.getElementById('logSleep').value ? Number(document.getElementById('logSleep').value) : null;
 
-  const currentLogs = loadLogs();
-  const existingIndex = currentLogs.findIndex(l => l.date === date);
-  const entry = { date, flow: selectedFlow, symptoms, sleep };
+  const saveBtn = document.getElementById('saveLogBtn');
+  saveBtn.disabled = true;
+  saveBtn.textContent = 'Saving...';
 
-  if (existingIndex >= 0) currentLogs[existingIndex] = entry;
-  else currentLogs.push(entry);
-
-  saveLogs(currentLogs);
-  overlay.hidden = true;
-  refreshDashboard();
+  try {
+    await saveLog({ date, flow: selectedFlow, symptoms, sleep });
+    overlay.hidden = true;
+    await refreshDashboard();
+  } catch (err) {
+    console.error(err);
+    alert('Could not save entry. Try again.');
+  } finally {
+    saveBtn.disabled = false;
+    saveBtn.textContent = 'Save entry';
+  }
 });
 
 // ---- Init ----
