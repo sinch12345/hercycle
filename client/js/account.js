@@ -1,8 +1,8 @@
 // ==========================================================
-// ACCOUNT PAGE LOGIC
+// ACCOUNT PAGE LOGIC — now uses real API calls
 // ==========================================================
 
-// ---- Load saved notification prefs ----
+// ---- Load saved notification prefs (still local for now — no backend field for this yet) ----
 function loadNotifPrefs() {
   const raw = localStorage.getItem('hercycle_notif_prefs');
   return raw ? JSON.parse(raw) : { period: true, pill: true, weekly: false };
@@ -28,33 +28,41 @@ function saveNotifPrefs() {
   document.getElementById(id).addEventListener('change', saveNotifPrefs);
 });
 
-// ---- Export JSON ----
-document.getElementById('exportJsonBtn').addEventListener('click', () => {
-  const logs = loadLogs();
-  const profile = localStorage.getItem('hercycle_profile');
-  const cycleHistory = localStorage.getItem('hercycle_cycle_history');
+// ---- Export JSON (pulls real logs from the API) ----
+document.getElementById('exportJsonBtn').addEventListener('click', async () => {
+  try {
+    const logs = await fetchLogs();
+    const user = JSON.parse(localStorage.getItem('hercycle_user') || '{}');
 
-  const payload = {
-    exportedAt: new Date().toISOString(),
-    profile: profile ? JSON.parse(profile) : null,
-    cycleHistory: cycleHistory ? JSON.parse(cycleHistory) : null,
-    logs,
-  };
+    const payload = {
+      exportedAt: new Date().toISOString(),
+      user,
+      logs,
+    };
 
-  downloadFile(JSON.stringify(payload, null, 2), 'hercycle-export.json', 'application/json');
-  showToast('JSON export downloaded');
+    downloadFile(JSON.stringify(payload, null, 2), 'hercycle-export.json', 'application/json');
+    showToast('JSON export downloaded');
+  } catch (err) {
+    console.error(err);
+    showToast('Export failed. Try again.');
+  }
 });
 
 // ---- Export CSV ----
-document.getElementById('exportCsvBtn').addEventListener('click', () => {
-  const logs = loadLogs();
-  const header = 'date,flow,symptoms,sleep\n';
-  const rows = logs.map(l =>
-    `${l.date},${l.flow},"${l.symptoms.join('; ')}",${l.sleep ?? ''}`
-  ).join('\n');
+document.getElementById('exportCsvBtn').addEventListener('click', async () => {
+  try {
+    const logs = await fetchLogs();
+    const header = 'date,flow,symptoms,sleep\n';
+    const rows = logs.map(l =>
+      `${l.date},${l.flow},"${l.symptoms.join('; ')}",${l.sleep ?? ''}`
+    ).join('\n');
 
-  downloadFile(header + rows, 'hercycle-logs.csv', 'text/csv');
-  showToast('CSV export downloaded');
+    downloadFile(header + rows, 'hercycle-logs.csv', 'text/csv');
+    showToast('CSV export downloaded');
+  } catch (err) {
+    console.error(err);
+    showToast('Export failed. Try again.');
+  }
 });
 
 function downloadFile(content, filename, mimeType) {
@@ -82,17 +90,24 @@ confirmOverlay.addEventListener('click', (e) => {
   if (e.target === confirmOverlay) confirmOverlay.hidden = true;
 });
 
-document.getElementById('confirmWipeBtn').addEventListener('click', () => {
-  localStorage.removeItem('hercycle_logs');
-  localStorage.removeItem('hercycle_profile');
-  localStorage.removeItem('hercycle_cycle_history');
-  localStorage.removeItem('hercycle_notif_prefs');
-  localStorage.removeItem('hercycle_onboarded');
-  localStorage.removeItem('hercycle_pledge_accepted');
+document.getElementById('confirmWipeBtn').addEventListener('click', async () => {
+  const btn = document.getElementById('confirmWipeBtn');
+  btn.disabled = true;
+  btn.textContent = 'Deleting...';
 
-  confirmOverlay.hidden = true;
-  showToast('All data wiped. Redirecting...');
-  setTimeout(() => { window.location.href = 'index.html'; }, 1500);
+  try {
+    await wipeAllLogs(); // deletes all logs from MongoDB via the API
+    localStorage.removeItem('hercycle_notif_prefs');
+
+    confirmOverlay.hidden = true;
+    showToast('All logs wiped. Logging out...');
+    setTimeout(() => { logout(); }, 1500);
+  } catch (err) {
+    console.error(err);
+    showToast('Could not wipe data. Try again.');
+    btn.disabled = false;
+    btn.textContent = 'Yes, delete everything';
+  }
 });
 
 // ---- Toast helper ----

@@ -22,10 +22,11 @@
 <nav>
   <div class="logo"><span class="logo-mark"></span>HerCycle</div>
   <div class="nav-links">
-    <a href="dashboard.html">Dashboard</a>
-    <a href="analytics.html">Insights</a>
-    <a href="account.html" class="active">Account</a>
-  </div>
+  <a href="dashboard.html">Dashboard</a>
+  <a href="analytics.html">Insights</a>
+  <a href="account.html" class="active">Account</a>
+  <a href="#" id="logoutLink">Log out</a>
+</div>
 </nav>
 
 <div class="app-shell">
@@ -80,5 +81,11 @@
 <script src="js/auth-guard.js"></script>
 <script src="js/data.js"></script>
 <script src="js/account.js"></script>
+<script>
+document.getElementById('logoutLink').addEventListener('click', (e) => {
+  e.preventDefault();
+  logout();
+});
+</script>
 </body>
 </html>

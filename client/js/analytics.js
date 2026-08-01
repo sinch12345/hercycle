@@ -1,25 +1,33 @@
 // ==========================================================
-// ANALYTICS PAGE LOGIC
+// ANALYTICS PAGE LOGIC — now uses real API calls
 // ==========================================================
 
-const logs = loadLogs();
-const predictions = getPredictions(logs);
+let logs = [];
+let predictions = {};
 
-renderCycleStats();
-renderCorrelations();
-renderLogTable();
+async function initAnalytics() {
+  try {
+    logs = await fetchLogs();
+    predictions = await fetchPredictions();
+    renderCycleStats();
+    renderCorrelations();
+    renderLogTable();
+  } catch (err) {
+    console.error(err);
+    alert('Could not load your data. Try refreshing the page.');
+  }
+}
 
 function renderCycleStats() {
   document.getElementById('anStatAvg').textContent = predictions.avgCycleLen ? `${predictions.avgCycleLen} days` : '—';
-  document.getElementById('anStatStd').textContent = predictions.stdDev !== null ? `± ${predictions.stdDev} days` : '—';
-  document.getElementById('anStatCount').textContent = predictions.cycleCount;
+  document.getElementById('anStatStd').textContent = predictions.stdDev !== null && predictions.stdDev !== undefined ? `± ${predictions.stdDev} days` : '—';
+  document.getElementById('anStatCount').textContent = predictions.cycleCount ?? '—';
 }
 
-// ---- Symptom correlation: sleep < 6hrs vs each symptom ----
 function renderCorrelations() {
   const container = document.getElementById('correlationBars');
-  const lowSleepLogs = logs.filter(l => l.sleep !== null && l.sleep < 6);
-  const normalSleepLogs = logs.filter(l => l.sleep !== null && l.sleep >= 6);
+  const lowSleepLogs = logs.filter(l => l.sleep !== null && l.sleep !== undefined && l.sleep < 6);
+  const normalSleepLogs = logs.filter(l => l.sleep !== null && l.sleep !== undefined && l.sleep >= 6);
 
   if (lowSleepLogs.length === 0 || normalSleepLogs.length === 0) {
     container.innerHTML = '<p class="corr-empty">Log a few more entries with sleep hours to unlock correlation insights.</p>';
@@ -51,7 +59,6 @@ function renderCorrelations() {
   `).join('');
 }
 
-// ---- Recent entries table ----
 function renderLogTable() {
   const tbody = document.getElementById('logTableBody');
   const sorted = [...logs].sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 10);
@@ -75,7 +82,9 @@ function capitalize(str) {
   return str.charAt(0).toUpperCase() + str.slice(1).replace('_', ' ');
 }
 
-// ---- PDF export (print-to-PDF for now) ----
 document.getElementById('exportPdfBtn').addEventListener('click', () => {
   window.print();
 });
+
+// ---- Init ----
+initAnalytics();
