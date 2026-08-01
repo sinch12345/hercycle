@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Log In — HerCycle</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,500&family=Manrope:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
+<link rel="alternate icon" href="assets/icons/favicon.ico">
+<link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<meta name="theme-color" content="#E94057">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/onboarding.css">
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo"><span class="logo-mark"></span>HerCycle</a>
+</nav>
+
+<div class="onboard-wrap" style="padding-top:160px;">
+  <span class="section-tag">Welcome back</span>
+  <h2>Log in to HerCycle</h2>
+  <p class="muted-p">Your cycle data is waiting for you.</p>
+
+  <div class="glass form-card">
+    <div class="form-row">
+      <label>Email</label>
+      <input type="email" id="loginEmail" placeholder="you@example.com">
+    </div>
+    <div class="form-row">
+      <label>Password</label>
+      <input type="password" id="loginPassword" placeholder="••••••••">
+    </div>
+    <p id="loginError" style="color:var(--heavy); font-size:13.5px; display:none; margin-top:8px;"></p>
+  </div>
+
+  <div class="onboard-actions">
+    <a href="onboarding.html" class="btn-ghost">Create account instead</a>
+    <button class="btn-primary" id="loginBtn">Log in →</button>
+  </div>
+</div>
+
+<script src="js/config.js"></script>
+<script src="js/login.js"></script>
+</body>
+</html>
