@@ -35,17 +35,28 @@
     <span class="section-tag">Step 1 of 3</span>
     <h2>Our Data Privacy Pledge</h2>
     <div class="glass pledge-card">
-      <ul class="pledge-list">
-        <li>Your health data is <strong>never sold or shared</strong> with insurers, advertisers, or anyone else.</li>
-        <li>Everything is <strong>encrypted at rest (AES-256)</strong> and in transit (TLS 1.3).</li>
-        <li>Your identity is stored <strong>separately</strong> from your health logs.</li>
-        <li>You can <strong>export or permanently delete</strong> all your data at any time.</li>
-      </ul>
-      <label class="pledge-check">
-        <input type="checkbox" id="pledgeAccept">
-        I've read and accept the Data Privacy Pledge
-      </label>
-    </div>
+  <ul class="pledge-list">
+    <li>Your health data is <strong>never sold or shared</strong> with insurers, advertisers, or anyone else.</li>
+    <li>Everything is <strong>encrypted at rest (AES-256)</strong> and in transit (TLS 1.3).</li>
+    <li>Your identity is stored <strong>separately</strong> from your health logs.</li>
+    <li>You can <strong>export or permanently delete</strong> all your data at any time.</li>
+  </ul>
+
+  <div class="form-row" style="margin-top:20px;">
+    <label>Email</label>
+    <input type="email" id="signupEmail" placeholder="you@example.com">
+  </div>
+  <div class="form-row">
+    <label>Password</label>
+    <input type="password" id="signupPassword" placeholder="At least 6 characters">
+  </div>
+  <p id="signupError" style="color:var(--heavy); font-size:13.5px; display:none; margin-bottom:12px;"></p>
+
+  <label class="pledge-check">
+    <input type="checkbox" id="pledgeAccept">
+    I've read and accept the Data Privacy Pledge
+  </label>
+</div>
     <div class="onboard-actions">
       <span></span>
       <button class="btn-primary" id="pledgeNextBtn" disabled>Continue →</button>
@@ -109,6 +120,7 @@
 
 </div>
 
+<script src="js/config.js"></script>
 <script src="js/onboarding.js"></script>
 </body>
 </html>

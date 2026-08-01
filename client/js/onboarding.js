@@ -1,7 +1,5 @@
 // ==========================================================
-// ONBOARDING FLOW
-// Saves to localStorage for now — will be replaced by real
-// API calls once the backend is connected (Phase C).
+// ONBOARDING FLOW — now creates a real account via the API
 // ==========================================================
 
 const steps = ['step-pledge', 'step-profile', 'step-cycle'];
@@ -15,7 +13,7 @@ function showStep(index) {
   currentStep = index;
 }
 
-// ---- Step 1: Pledge ----
+// ---- Step 1: Pledge + Signup ----
 const pledgeCheckbox = document.getElementById('pledgeAccept');
 const pledgeNextBtn = document.getElementById('pledgeNextBtn');
 
@@ -23,49 +21,65 @@ pledgeCheckbox.addEventListener('change', () => {
   pledgeNextBtn.disabled = !pledgeCheckbox.checked;
 });
 
-pledgeNextBtn.addEventListener('click', () => {
-  localStorage.setItem('hercycle_pledge_accepted', 'true');
-  showStep(1);
+pledgeNextBtn.addEventListener('click', async () => {
+  const email = document.getElementById('signupEmail').value.trim();
+  const password = document.getElementById('signupPassword').value;
+  const errorEl = document.getElementById('signupError');
+  errorEl.style.display = 'none';
+
+  if (!email || !password) {
+    return showSignupError('Please enter both email and password.');
+  }
+  if (password.length < 6) {
+    return showSignupError('Password must be at least 6 characters.');
+  }
+
+  pledgeNextBtn.disabled = true;
+  pledgeNextBtn.textContent = 'Creating account...';
+
+  try {
+    const res = await fetch(`${API_URL}/auth/signup`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password }),
+    });
+    const data = await res.json();
+
+    if (!res.ok) {
+      showSignupError(data.error || 'Signup failed.');
+      pledgeNextBtn.disabled = false;
+      pledgeNextBtn.textContent = 'Continue →';
+      return;
+    }
+
+    // Save the real session
+    localStorage.setItem('hercycle_token', data.token);
+    localStorage.setItem('hercycle_user', JSON.stringify(data.user));
+
+    showStep(1);
+  } catch (err) {
+    console.error(err);
+    showSignupError('Could not reach the server. Is it running?');
+    pledgeNextBtn.disabled = false;
+    pledgeNextBtn.textContent = 'Continue →';
+  }
 });
 
-// ---- Step 2: Profile ----
-function saveProfile() {
-  const profile = {
-    age: document.getElementById('inputAge').value || null,
-    height: document.getElementById('inputHeight').value || null,
-    weight: document.getElementById('inputWeight').value || null,
-  };
-  localStorage.setItem('hercycle_profile', JSON.stringify(profile));
+function showSignupError(msg) {
+  const errorEl = document.getElementById('signupError');
+  errorEl.textContent = msg;
+  errorEl.style.display = 'block';
 }
 
-document.getElementById('profileNextBtn').addEventListener('click', () => {
-  saveProfile();
-  showStep(2);
-});
-document.getElementById('profileSkipBtn').addEventListener('click', () => {
-  showStep(2);
-});
+// ---- Step 2: Profile (saved locally for now, synced to backend in a later step) ----
+document.getElementById('profileNextBtn').addEventListener('click', () => showStep(2));
+document.getElementById('profileSkipBtn').addEventListener('click', () => showStep(2));
 
 // ---- Step 3: Cycle history ----
-function saveCycleHistory() {
-  const cycle = {
-    lastPeriod: document.getElementById('inputLastPeriod').value || null,
-    avgLength: document.getElementById('inputCycleLen').value || null,
-    typicalFlow: document.getElementById('inputFlowTypical').value || null,
-  };
-  localStorage.setItem('hercycle_cycle_history', JSON.stringify(cycle));
-}
-
-document.getElementById('cycleFinishBtn').addEventListener('click', () => {
-  saveCycleHistory();
-  finishOnboarding();
-});
-document.getElementById('cycleSkipBtn').addEventListener('click', () => {
-  finishOnboarding();
-});
+document.getElementById('cycleFinishBtn').addEventListener('click', finishOnboarding);
+document.getElementById('cycleSkipBtn').addEventListener('click', finishOnboarding);
 
 function finishOnboarding() {
-  localStorage.setItem('hercycle_onboarded', 'true');
   window.location.href = 'dashboard.html';
 }
 
