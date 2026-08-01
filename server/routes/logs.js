@@ -1,17 +1,12 @@
-// ==========================================================
-// LOG ROUTES — /api/logs
-// All routes here require a valid logged-in user
-// ==========================================================
-
 const express = require('express');
 const Log = require('../models/Log');
 const requireAuth = require('../middleware/auth');
+const { getPredictions } = require('../utils/predictions');
 
 const router = express.Router();
 
-router.use(requireAuth); // every route below needs a valid token
+router.use(requireAuth);
 
-// ---- GET all logs for the logged-in user ----
 router.get('/', async (req, res) => {
   try {
     const logs = await Log.find({ userId: req.userId }).sort({ date: 1 });
@@ -22,22 +17,17 @@ router.get('/', async (req, res) => {
   }
 });
 
-// ---- POST — create or update a log entry for a given date ----
 router.post('/', async (req, res) => {
   try {
     const { date, flow, symptoms, sleep } = req.body;
-
     if (!date) {
       return res.status(400).json({ error: 'Date is required.' });
     }
-
-    // upsert: update if this user already has an entry for this date, else create
     const log = await Log.findOneAndUpdate(
       { userId: req.userId, date },
       { flow, symptoms, sleep },
       { new: true, upsert: true, setDefaultsOnInsert: true }
     );
-
     res.status(201).json({ log });
   } catch (err) {
     console.error('Save log error:', err);
@@ -45,7 +35,17 @@ router.post('/', async (req, res) => {
   }
 });
 
-// ---- DELETE a single log entry ----
+router.get('/predictions', async (req, res) => {
+  try {
+    const logs = await Log.find({ userId: req.userId }).sort({ date: 1 });
+    const predictions = getPredictions(logs);
+    res.json({ predictions });
+  } catch (err) {
+    console.error('Predictions error:', err);
+    res.status(500).json({ error: 'Could not compute predictions.' });
+  }
+});
+
 router.delete('/:id', async (req, res) => {
   try {
     const log = await Log.findOneAndDelete({ _id: req.params.id, userId: req.userId });
@@ -57,7 +57,6 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
-// ---- DELETE all logs for this user (used by "Wipe Data") ----
 router.delete('/', async (req, res) => {
   try {
     await Log.deleteMany({ userId: req.userId });
